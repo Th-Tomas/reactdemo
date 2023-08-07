@@ -1,23 +1,37 @@
-import logo from './logo.svg';
+import React, {useState, useEffect}from 'react';
+import axios from 'axios';
 import './App.css';
+import Nav from './components/Nav';
 
 function App() {
+
+  const [post, setPost] = useState([]);
+
+  useEffect(() => 
+  {
+    axios.get('https://dummyjson.com/products').then((response) => 
+    {
+    
+      setPost(response.data.products)
+
+    })
+  },[]);
+  console.log(post)
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     
+        {post.map((item)=>{
+          return(
+            <div>
+              <h1>Dummy Data</h1>
+              <p>{item.title}</p>
+              <img src={item.images[0]} style={{width:'200px',height:'150px'}}/>
+              <p>{item.description}</p>
+              </div>
+          )
+        })}
+
     </div>
   );
 }
